@@ -11,6 +11,7 @@
     "ckeditor5-math"
   ],
   "dependencies": {
+    "@ckeditor/ckeditor5-autoformat": "^30.0.0",
     "@ckeditor/ckeditor5-clipboard": "^30.0.0",
     "@ckeditor/ckeditor5-core": "^30.0.0",
     "@ckeditor/ckeditor5-engine": "^30.0.0",

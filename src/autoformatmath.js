@@ -2,8 +2,10 @@ import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
 import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
 import blockAutoformatEditing from '@ckeditor/ckeditor5-autoformat/src/blockautoformatediting';
 
-import Math from './math';
+import inlineAutoformatEditing from '@ckeditor/ckeditor5-autoformat/src/inlineautoformatediting';
+import LivePosition from '@ckeditor/ckeditor5-engine/src/model/liveposition';
 
+import Math from './math';
 export default class AutoformatMath extends Plugin {
 	static get requires() {
 		return [ Math, Autoformat ];
@@ -15,9 +17,12 @@ export default class AutoformatMath extends Plugin {
 
 		if ( command ) {
 			const mathBlockCallback = getCallbackFunctionForBlockAutoformat( editor, command );
+			const mathInlineCallback = getCallbackFunctionForInlineAutoformat( editor, command );
 
 			blockAutoformatEditing( editor, this, /^\\\[$/, mathBlockCallback );
-			blockAutoformatEditing( editor, this, /^\$\$$/, mathBlockCallback );
+			// blockAutoformatEditing( editor, this, /^\$\$$/, mathBlockCallback );
+			inlineAutoformatEditing( editor, this, /(?:^|\s)(\$)([^$]*)(\$)$/g , mathInlineCallback)
+
 		}
 	}
 
@@ -35,4 +40,47 @@ function getCallbackFunctionForBlockAutoformat( editor, command ) {
 		command.display = true;
 		editor.plugins.get( 'MathUI' )._showUI();
 	};
+}
+
+function getCallbackFunctionForInlineAutoformat( editor, command ) {
+	return ( writer, rangesToFormat ) => {
+		if ( !command.isEnabled ) {
+			return false;
+		}
+		// text in between symbols 
+		let text = '';
+		console.log(rangesToFormat)
+		for ( const range of rangesToFormat ) {
+			// writer.setAttribute( 'math', true, range );
+			const walker = range.getWalker( { ignoreElementEnd: true } );
+
+			// Get equation text
+			for ( const node of walker ) {
+				if ( node.item.is( '$textProxy' ) ) {
+					text += node.item.data;
+					console.log(node,node.item.data)
+				}
+			}
+			const leftLivePosition = LivePosition.fromPosition( range.start );
+			leftLivePosition.stickiness = 'toPrevious';
+
+			const rightLivePosition = LivePosition.fromPosition( range.end );
+			rightLivePosition.stickiness = 'toNext';
+			leftLivePosition.detach();
+			rightLivePosition.detach();
+		}
+		text = text.trim();
+		console.log('TEXT', text);
+		command.value = text;
+		command.display = false;
+		editor.plugins.get( 'MathUI' )._showUI();
+		// const mathConfig = editor.config.get( 'math' );
+		// editor.execute( 'math', text, false, mathConfig.outputType, mathConfig.forceOutputType );
+		writer.setSelection(rangesToFormat)
+		setTimeout(() => {
+			command.value = text;
+			command.display = false;
+		},100)
+
+	}
 }
