@@ -40,7 +40,7 @@ export default class MathEditing extends Plugin {
 		const schema = this.editor.model.schema;
 		schema.register( 'mathtex-inline', {
 			allowWhere: '$text',
-			isInline: true,
+			isInline: false,
 			isObject: true,
 			allowAttributes: [ 'equation', 'type', 'display' ]
 		} );
