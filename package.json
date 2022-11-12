@@ -1,6 +1,6 @@
 {
   "name": "ckeditor5-math",
-  "version": "35.3.0",
+  "version": "35.4.0",
   "description": "Math feature for CKEditor 5.",
   "keywords": [
     "ckeditor",
@@ -54,13 +54,6 @@
     "node": ">=14.0.0",
     "npm": ">=5.7.1"
   },
-  "author": "Sauli Anto",
-  "license": "ISC",
-  "bugs": "https://github.com/isaul32/ckeditor5-math/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/isaul32/ckeditor5-math.git"
-  },
   "files": [
     "lang",
     "src",
@@ -86,10 +79,5 @@
     "packages/*/node_modules/**",
     "packages/*/build/**",
     "packages/*/src/lib/**"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  }
+  ]
 }
