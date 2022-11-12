@@ -9,13 +9,14 @@
     "ckeditor5-feature",
     "ckeditor5-plugin",
     "ckeditor5-math",
-	"katex"
+    "katex"
   ],
   "resolutions": {
     "postcss-loader": "^4.3.0",
     "mini-css-extract-plugin": "2.4.2"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-autoformat": "^35.3.0",
     "@ckeditor/ckeditor5-clipboard": "^35.3.0",
     "@ckeditor/ckeditor5-core": "^35.3.0",
     "@ckeditor/ckeditor5-engine": "^35.3.0",
@@ -23,7 +24,9 @@
     "@ckeditor/ckeditor5-ui": "^35.3.0",
     "@ckeditor/ckeditor5-undo": "^35.3.0",
     "@ckeditor/ckeditor5-utils": "^35.3.0",
-    "@ckeditor/ckeditor5-widget": "^35.3.0"
+    "@ckeditor/ckeditor5-widget": "^35.3.0",
+    "mathlive": "^0.84.0",
+    "postcss": "^8.4.19"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-basic-styles": "^35.3.0",

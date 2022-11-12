@@ -126,8 +126,9 @@ export function getBalloonPositionData( editor ) {
 	}
 	else {
 		const viewDocument = view.document;
+		const range = viewDocument.selection.getFirstRange() 
 		return {
-			target: view.domConverter.viewRangeToDom( viewDocument.selection.getFirstRange() ),
+			target: view.domConverter.viewRangeToDom( range ),
 			positions: [
 				defaultPositions.southArrowNorth,
 				defaultPositions.southArrowNorthWest,

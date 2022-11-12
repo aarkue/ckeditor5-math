@@ -21,6 +21,7 @@ import { extractDelimiters, hasDelimiters } from '../utils';
 import MathView from './mathview';
 
 import '../../theme/mathform.css';
+import MathInputView from './mathinputview';
 
 export default class MainFormView extends View {
 	constructor( locale, engine, lazyLoad, previewEnabled, previewUid, previewClassName, popupClassName, katexRenderOptions ) {
@@ -32,7 +33,7 @@ export default class MainFormView extends View {
 		this._createKeyAndFocusTrackers();
 
 		// Submit button
-		this.saveButtonView = this._createButton( t( 'Save' ), checkIcon, 'ck-button-save', null );
+		this.saveButtonView = this._createButton( t( 'Save (Ctrl+Enter)' ), checkIcon, 'ck-button-save', null );
 		this.saveButtonView.type = 'submit';
 
 		// Equation input
@@ -42,7 +43,7 @@ export default class MainFormView extends View {
 		this.displayButtonView = this._createDisplayButton();
 
 		// Cancel button
-		this.cancelButtonView = this._createButton( t( 'Cancel' ), cancelIcon, 'ck-button-cancel', 'cancel' );
+		this.cancelButtonView = this._createButton( t( 'Cancel (Esc)' ), cancelIcon, 'ck-button-cancel', 'cancel' );
 
 		this.previewEnabled = previewEnabled;
 
@@ -60,7 +61,7 @@ export default class MainFormView extends View {
 				this.mathInputView,
 				this.displayButtonView,
 				this.previewLabel,
-				this.mathView
+				this.mathView,
 			];
 		} else {
 			children = [
@@ -78,6 +79,7 @@ export default class MainFormView extends View {
 					'ck-math-form',
 					...popupClassName
 				],
+				style: "padding: 5px;",
 				tabindex: '-1',
 				spellcheck: 'false'
 			},
@@ -86,13 +88,22 @@ export default class MainFormView extends View {
 					tag: 'div',
 					attributes: {
 						class: [
-							'ck-math-view'
+							'ck-math-view',
+							'ck-reset_all-excluded'
 						]
 					},
-					children
+					children,
 				},
+				{
+					tag: 'div',
+					attributes: {
+						class: ['ck-math-buttons']
+					},
+					children: [
 				this.saveButtonView,
-				this.cancelButtonView
+				this.cancelButtonView,
+					]
+				}
 			]
 		} );
 	}
@@ -127,11 +138,11 @@ export default class MainFormView extends View {
 	}
 
 	get equation() {
-		return this.mathInputView.inputView.element.value;
+		return this.mathInputView.getValue();
 	}
 
 	set equation( equation ) {
-		this.mathInputView.inputView.element.value = equation;
+		this.mathInputView.setValue(equation);
 		if ( this.previewEnabled ) {
 			this.mathView.value = equation;
 		}
@@ -154,16 +165,11 @@ export default class MainFormView extends View {
 	}
 
 	_createMathInput() {
-		const t = this.locale.t;
-
-		// Create equation input
-		const mathInput = new LabeledInputView( this.locale, InputTextView );
-		const inputView = mathInput.inputView;
-		mathInput.infoText = t( 'Insert equation in TeX format.' );
+		const mathAreaInput = new MathInputView(this.locale)
 
 		const onInput = () => {
-			if ( inputView.element != null ) {
-				let equationInput = inputView.element.value.trim();
+			if ( mathAreaInput.element != null ) {
+				let equationInput = mathAreaInput.getValue().trim();
 
 				// If input has delimiters
 				if ( hasDelimiters( equationInput ) ) {
@@ -171,7 +177,7 @@ export default class MainFormView extends View {
 					const params = extractDelimiters( equationInput );
 
 					// Remove delimiters from input field
-					inputView.element.value = params.equation;
+					mathAreaInput.setValue(params.equation);
 
 					equationInput = params.equation;
 
@@ -187,10 +193,10 @@ export default class MainFormView extends View {
 			}
 		};
 
-		inputView.on( 'render', onInput );
-		inputView.on( 'input', onInput );
+		mathAreaInput.on( 'render', onInput );
+		mathAreaInput.on( 'input', onInput );
 
-		return mathInput;
+		return mathAreaInput;
 	}
 
 	_createButton( label, icon, className, eventName ) {
@@ -222,12 +228,12 @@ export default class MainFormView extends View {
 
 		switchButton.set( {
 			label: t( 'Display mode' ),
-			withText: true
+			withText: true,
 		} );
-
 		switchButton.extendTemplate( {
 			attributes: {
-				class: 'ck-button-display-toggle'
+				class: 'ck-button-display-toggle',
+				style: 'padding-left: 0; padding-bottom: 5px;'
 			}
 		} );
 

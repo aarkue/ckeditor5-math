@@ -50,6 +50,7 @@ function getCallbackFunctionForInlineAutoformat( editor, command ) {
 		// text in between symbols 
 		let text = '';
 		console.log(rangesToFormat)
+		writer.setSelection(rangesToFormat)
 		for ( const range of rangesToFormat ) {
 			// writer.setAttribute( 'math', true, range );
 			const walker = range.getWalker( { ignoreElementEnd: true } );
@@ -70,16 +71,11 @@ function getCallbackFunctionForInlineAutoformat( editor, command ) {
 			rightLivePosition.detach();
 		}
 		text = text.trim();
-		console.log('TEXT', text);
-		command.value = text;
-		command.display = false;
-		editor.plugins.get( 'MathUI' )._showUI();
-		// const mathConfig = editor.config.get( 'math' );
-		// editor.execute( 'math', text, false, mathConfig.outputType, mathConfig.forceOutputType );
-		writer.setSelection(rangesToFormat)
 		setTimeout(() => {
 			command.value = text;
 			command.display = false;
+			// This is ugly, but we enforce that the selection is updated this way
+			editor.plugins.get( 'MathUI' )._showUI();
 		},100)
 
 	}

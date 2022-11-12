@@ -96,6 +96,7 @@ export default class MathUI extends Plugin {
 			this._closeFormView();
 		} );
 
+
 		// Listen to cancel button click
 		this.listenTo( formView, 'cancel', () => {
 			this._closeFormView();
@@ -105,6 +106,13 @@ export default class MathUI extends Plugin {
 		formView.keystrokes.set( 'esc', ( data, cancel ) => {
 			this._closeFormView();
 			cancel();
+		} );
+
+
+		formView.keystrokes.set( 'Ctrl+enter', ( data, cancel ) => {
+			data.preventDefault();
+			editor.execute( 'math', formView.equation, formView.displayButtonView.isOn, mathConfig.outputType, mathConfig.forceOutputType );
+			this._closeFormView();
 		} );
 
 		return formView;
