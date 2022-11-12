@@ -11,11 +11,18 @@ import MathAutoFormat from "../src/autoformatmath";
 ClassicEditor.create(document.querySelector("#editor"), {
 	plugins: [Essentials, Paragraph, Bold, Italic, Math, Autoformat, MathAutoFormat],
 	toolbar: ["bold", "italic", "math"],
-	math: { engine: "katex" },
+	math: {
+		engine: "katex",
+		katexRenderOptions: {
+			macros: {
+				"\\test": "\\mathrel{\\char`≠}",
+			},
+		},
+	},
 })
 	.then((editor) => {
 		console.log("Editor was initialized", editor);
-		CKEditorInspector.attach(editor)
+		CKEditorInspector.attach(editor);
 	})
 	.catch((error) => {
 		console.error(error);
