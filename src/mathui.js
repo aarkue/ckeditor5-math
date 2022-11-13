@@ -43,13 +43,13 @@ export default class MathUI extends Plugin {
 	destroy() {
 		super.destroy();
 
-		this.formView.destroy();
-
+		
 		// Destroy preview element
 		const previewEl = global.document.getElementById( this._previewUid );
 		if ( previewEl ) {
 			previewEl.parentNode.removeChild( previewEl );
 		}
+		this.formView.destroy();
 	}
 
 	_showUI() {
@@ -150,7 +150,6 @@ export default class MathUI extends Plugin {
 		if ( !this._isFormInPanel ) {
 			return;
 		}
-
 		const editor = this.editor;
 
 		this.stopListening( editor.ui, 'update' );
@@ -169,6 +168,10 @@ export default class MathUI extends Plugin {
 		} else {
 			this._hideUI();
 		}
+		const previewEl = global.document.getElementById( this._previewUid );
+		if ( previewEl ) {
+			previewEl.style.visibility = 'hidden';
+		}
 	}
 
 	_removeFormView() {
@@ -176,13 +179,16 @@ export default class MathUI extends Plugin {
 			this.formView.saveButtonView.focus();
 			this._balloon.remove( this.formView );
 
-			// Hide preview element
-			const previewEl = global.document.getElementById( this._previewUid );
-			if ( previewEl ) {
-				previewEl.style.visibility = 'hidden';
-			}
+			// Remove preview element
+			setTimeout(() => {
+				const previewEl = global.document.getElementById( this._previewUid );
+				if ( previewEl ) {
+					previewEl.parentNode.removeChild( previewEl );
+				}
+			},1)
 
 			this.editor.editing.view.focus();
+			
 		}
 	}
 
