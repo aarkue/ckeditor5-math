@@ -37,7 +37,7 @@ export default class MainFormView extends View {
 		this.saveButtonView.type = 'submit';
 
 		// Equation input
-		this.mathInputView = this._createMathInput();
+		this.mathInputView = this._createMathInput(katexRenderOptions);
 
 		// Display button
 		this.displayButtonView = this._createDisplayButton();
@@ -164,10 +164,11 @@ export default class MainFormView extends View {
 		} );
 	}
 
-	_createMathInput() {
-		const mathAreaInput = new MathInputView(this.locale)
+	_createMathInput(katexRenderOptions) {
+		const mathAreaInput = new MathInputView(this.locale,katexRenderOptions)
 
 		const onInput = () => {
+			console.log("onInput")
 			if ( mathAreaInput.element != null ) {
 				let equationInput = mathAreaInput.getValue().trim();
 
@@ -187,13 +188,16 @@ export default class MainFormView extends View {
 				if ( this.previewEnabled ) {
 					// Update preview view
 					this.mathView.value = equationInput;
+					setTimeout(() => {
+						this.mathView.updateMath(equationInput)
+					},1)
 				}
 
 				this.saveButtonView.isEnabled = !!equationInput;
 			}
 		};
 
-		mathAreaInput.on( 'render', onInput );
+		// mathAreaInput.on( 'render', onInput );
 		mathAreaInput.on( 'input', onInput );
 
 		return mathAreaInput;

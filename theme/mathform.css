@@ -1,19 +1,13 @@
 
-
-.ck.ck-math-form input.ck.ck-input.ck-input-text {
-		width: 36em;
-		min-height: 5em;
-		word-wrap: break-word;
-		white-space: break-spaces;
-	}
 .ck-mathinput {
 	font-size: 1.5rem !important;
 }
 .ck-mathinput textarea {
+	width: 20rem !important;
+	min-height: 5em;
 	font-size: 0.9rem  !important;
 	width: 100%;
-	min-height: 4rem;
-	padding: 0.2rem;
+	/* padding: 0.2rem; */
 	font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace !important; 
 }
 
@@ -22,14 +16,20 @@
 }
 
 .ck-math-buttons {
-	padding-left: 15px !important;
+	/* padding-left: 15px !important; */
+	width: 100% !important;
+	display: flex !important;
+	justify-content: end !important;
+	font-size: 1rem !important;
 }
 
 	.ck.ck-math-form {
 	display: flex;
 	align-items: flex-start;
-	flex-direction: row;
+	flex-direction: column;
 	flex-wrap: nowrap;
+	padding: 2rem;
+	min-width:  21rem;
 
 
 	@media screen and (max-width: 600px) {

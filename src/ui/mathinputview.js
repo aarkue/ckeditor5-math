@@ -2,12 +2,14 @@ import View from '@ckeditor/ckeditor5-ui/src/view';
 import { MathfieldElement} from 'mathlive';
 
 export default class MathInputView extends View {
-	constructor( locale ) {
+	constructor( locale,katexRenderOptions ) {
 		super( locale );
 
 		this.value = ""
 		this.textAreaEl = null;
 		this.mathFieldEl = null;
+		this.katexRenderOptions = katexRenderOptions;
+		this.lastFocused = null;
 
 		this.on( 'change', () => {
 			console.log("change")
@@ -20,7 +22,6 @@ export default class MathInputView extends View {
 		this.setTemplate( {
 			tag: 'div',
 			attributes: {
-				'fonts-directory': '',
 				class: [
 					'ck',
 					'ck-mathinput',
@@ -39,18 +40,64 @@ export default class MathInputView extends View {
 	render() {
 		super.render();
 		this.mathFieldEl = new MathfieldElement();
+		console.log(this.katexRenderOptions?.macros);
+		const macros =  {...this.mathFieldEl.getOptions('macros')}
+		if(this.katexRenderOptions && this.katexRenderOptions.macros){
+			for(const k in this.katexRenderOptions.macros){
+				macros[k.substring(1)] = this.katexRenderOptions.macros[k]
+			}
+		}
+		console.log(macros)
 		this.mathFieldEl.setOptions({
 			fontsDirectory: 'https://unpkg.com/mathlive/dist/fonts/',
 			virtualKeyboardMode: 'manual',
+			macros: macros,
+			soundsDirectory: null,
+			plonkSound: null
 		});
 		this.textAreaEl = document.createElement('textarea');
 
 		this.textAreaEl.oninput = (e) => {
 			this.setValue(e.currentTarget.value,'textarea')
-			console.log("textArea change!")
 		}
+		this.textAreaEl.onkeydown = (e) => {
+			if(e.key == 'Tab' && e.shiftKey){
+				e.preventDefault();
+				e.stopPropagation();
+				this.mathFieldEl.focus();
+			}
+		}
+
+			// if(this.lastFocused == 'textarea'){
+			// 	e.preventDefault();
+			// 	this.mathFieldEl.focus();
+			// }else{
+			// 	this.lastFocused = 'textarea';
+			// 	this.textAreaEl.selectionStart = this.textAreaEl.value.length
+			// 	this.textAreaEl.selectionEnd = this.textAreaEl.value.length
+
+			// }
+
+		// this.mathFieldEl.onfocus = (e) => {
+		// 	this.lastFocused = 'mathfield';
+		// }
+		// this.mathFieldEl.onblur = (e) => {
+		// 	e.preventDefault();
+		// 	e.stopPropagation();
+		// 	this.textAreaEl.focus();
+		// }
+
+		// this.mathFieldEl.onblur = (e) => {
+		// 	// console.log("mathFieldEl onblur")
+		// 	// e.preventDefault();
+		// 	// e.stopPropagation();
+		// 	// this.textAreaEl.focus()
+		// 	// this.element.blur();
+		// 	// this.fire('blur',e)
+		// }
 		this.mathFieldEl.onkeydown = (e) => {
-			if(e.key === 'Tab'){
+			if(e.key === 'Tab' && !e.shiftKey){
+				console.log(this.mathFieldEl.executeCommand('complete'))
 				e.stopPropagation();
 			}else if(e.key === 'Enter' && e.ctrlKey){
 				// Keybind to apply entered math
@@ -61,15 +108,43 @@ export default class MathInputView extends View {
 		}
 		this.mathFieldEl.oninput = (e) => {
 			this.setValue(e.currentTarget.value,'mathfield')
-			console.log("mathfield change!")
 		}
-
-		this.element.appendChild(this.textAreaEl)
+		this.mathFieldEl.tabindex = undefined;
 		this.element.appendChild(this.mathFieldEl)
+		this.element.appendChild(this.textAreaEl)
+		this.element.tabIndex = -1
+
 	}
 
 	select() {
-		this.textAreaEl.focus()
+		this.mathFieldEl.focus()
+	}
+
+
+
+	focus(){
+		// console.log(this.lastFocused)
+		// if(this.lastFocused == null){
+		// 	this.lastFocused = 'textarea';
+			this.textAreaEl.focus();
+		// }else if(this.lastFocused == 'textarea'){
+		// 	this.lastFocused = 'mathfield';
+		// 	this.mathFieldEl.focus();
+
+		// }else if(this.lastFocused == 'mathfield'){
+		// 	this.lastFocused = 'textarea';
+		// 	this.textAreaEl.focus();
+
+		// }
+		// // if(this.mathFieldEl.hasFocus){
+		// // 	this.textAreaEl.focus()
+
+		// // }else if(this.textAreaEl.hasFocus){
+		// // 	this.mathFieldEl.focus()
+		// // }else{
+		// // 	this.textAreaEl.focus()
+		// // }
+		// // this.mathFieldEl.focus()
 	}
 
 	getValue(){

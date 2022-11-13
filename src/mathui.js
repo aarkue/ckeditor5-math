@@ -227,7 +227,7 @@ export default class MathUI extends Plugin {
 			const mathCommand = editor.commands.get( 'math' );
 			if ( mathCommand.value ) {
 				if ( mathCommand.isEnabled ) {
-					this._showUI();
+						this._showUI();
 				}
 			}
 		} );

@@ -114,13 +114,18 @@ export function getBalloonPositionData( editor ) {
 	const defaultPositions = BalloonPanelView.defaultPositions;
 
 	const selectedElement = view.document.selection.getSelectedElement();
+	console.log(selectedElement)
 	if ( selectedElement ) {
 		return {
 			target: view.domConverter.viewToDom( selectedElement ),
 			positions: [
+				defaultPositions.northArrowSouth,
+				defaultPositions.northArrowSouthWest,
+				defaultPositions.northArrowSouthEast,
 				defaultPositions.southArrowNorth,
 				defaultPositions.southArrowNorthWest,
-				defaultPositions.southArrowNorthEast
+				defaultPositions.southArrowNorthEast,
+				// defaultPositions.viewportStickyNorth
 			]
 		};
 	}
@@ -130,9 +135,13 @@ export function getBalloonPositionData( editor ) {
 		return {
 			target: view.domConverter.viewRangeToDom( range ),
 			positions: [
+				defaultPositions.northArrowSouth,
+				defaultPositions.northArrowSouthWest,
+				defaultPositions.northArrowSouthEast,
 				defaultPositions.southArrowNorth,
 				defaultPositions.southArrowNorthWest,
-				defaultPositions.southArrowNorthEast
+				defaultPositions.southArrowNorthEast,
+				// defaultPositions.viewportStickyNorth
 			]
 		};
 	}

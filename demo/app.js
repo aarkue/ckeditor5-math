@@ -15,7 +15,7 @@ ClassicEditor.create(document.querySelector("#editor"), {
 		engine: "katex",
 		katexRenderOptions: {
 			macros: {
-				"\\test": "\\mathrel{\\char`≠}",
+				"\\placeholder": "\\boxdot{}",
 			},
 		},
 	},
