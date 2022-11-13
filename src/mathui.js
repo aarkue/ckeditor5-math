@@ -174,7 +174,6 @@ export default class MathUI extends Plugin {
 	_removeFormView() {
 		if ( this._isFormInPanel ) {
 			this.formView.saveButtonView.focus();
-
 			this._balloon.remove( this.formView );
 
 			// Hide preview element

@@ -1,7 +1,14 @@
 
+/* Simulate mathlive stylesheet from being loaded to prevent font loading (as they are included automatically)
+Using fontsDirectory: null option should be sufficient but seems to be broken currently... */
+:root {
+	--ML__static-fonts: true;
+}
+
 .ck-mathinput {
 	font-size: 1.5rem !important;
 }
+
 .ck-mathinput textarea {
 	width: 20rem !important;
 	min-height: 5em;

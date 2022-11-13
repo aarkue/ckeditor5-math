@@ -168,7 +168,6 @@ export default class MainFormView extends View {
 		const mathAreaInput = new MathInputView(this.locale,katexRenderOptions)
 
 		const onInput = () => {
-			console.log("onInput")
 			if ( mathAreaInput.element != null ) {
 				let equationInput = mathAreaInput.getValue().trim();
 

@@ -114,7 +114,6 @@ export function getBalloonPositionData( editor ) {
 	const defaultPositions = BalloonPanelView.defaultPositions;
 
 	const selectedElement = view.document.selection.getSelectedElement();
-	console.log(selectedElement)
 	if ( selectedElement ) {
 		return {
 			target: view.domConverter.viewToDom( selectedElement ),
