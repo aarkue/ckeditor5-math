@@ -1,6 +1,6 @@
 {
   "name": "ckeditor5-math",
-  "version": "35.6.2",
+  "version": "35.6.3",
   "description": "Math feature for CKEditor 5.",
   "keywords": [
     "ckeditor",
@@ -25,7 +25,7 @@
     "@ckeditor/ckeditor5-undo": "^35.4.0",
     "@ckeditor/ckeditor5-utils": "^35.4.0",
     "@ckeditor/ckeditor5-widget": "^35.4.0",
-    "mathlive": "^0.84.0",
+    "mathlive": "^0.86.0",
     "postcss": "^8.4.19"
   },
   "devDependencies": {
