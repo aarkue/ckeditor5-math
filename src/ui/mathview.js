@@ -11,8 +11,10 @@ export default class MathView extends View {
 		this.previewUid = previewUid;
 		this.katexRenderOptions = katexRenderOptions;
 
-		this.set( 'value', '' );
-		this.set( 'display', false );
+		// this.set( 'value', '' );
+		this.value = ''
+		this.display = false
+		// this.set( 'display', false );
 
 		this.on( 'change', () => {
 			if ( this.isRendered ) {

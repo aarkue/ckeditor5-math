@@ -4,8 +4,8 @@ import { MathfieldElement} from 'mathlive';
 export default class MathInputView extends View {
 	constructor( locale,katexRenderOptions ) {
 		super( locale );
-
-		this.value = ""
+		this.value = '';
+		// this.set('value','')
 		this.textAreaEl = null;
 		this.mathFieldEl = null;
 		this.katexRenderOptions = katexRenderOptions;
@@ -14,7 +14,8 @@ export default class MathInputView extends View {
 		this.on( 'change', () => {
 			console.log("change")
 			if(this.element){
-				this.set('value',this.element.value)
+				// this.set('value',this.element.value)
+				this.value = this.element.value
 			}
 		} );
 
