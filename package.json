@@ -1,6 +1,6 @@
 {
   "name": "ckeditor5-math",
-  "version": "35.6.3",
+  "version": "35.6.4",
   "description": "Math feature for CKEditor 5.",
   "keywords": [
     "ckeditor",
@@ -48,7 +48,8 @@
     "stylelint-config-ckeditor5": "^2.0.1",
     "webpack": "^5.58.1",
     "webpack-cli": "^4.9.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "postcss": "^8.4.20"
   },
   "engines": {
     "node": ">=14.0.0",
